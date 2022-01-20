@@ -21,17 +21,16 @@ jobs:
           command: |
             yarn lint
       - run:
+          name: Build
+          command: |
+            yarn build
+      - run:
           name: Unit Tests
           command: |
             yarn test
 
 workflows:
-  dev:
-    jobs:
-      - node/test:
-          version: '16.10'
-          pkg-manager: yarn
-  run-npm-command:
+  api:
     jobs:
       - build-api
 # yarn lint
