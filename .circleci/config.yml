@@ -21,16 +21,15 @@ jobs:
           command: |
             yarn lint
       - run:
-          name: Build
-          command: |
-            yarn build
-      - run:
           name: Unit Tests
           command: |
             yarn test
-
+      - run:
+          name: Build
+          command: |
+            yarn build
 workflows:
-  api:
+  build-api:
     jobs:
       - build-api
 # yarn lint
