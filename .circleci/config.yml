@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@5.0.0
 
 jobs:
-  install-node:
+  build-api:
     docker:
       - image: 'cimg/base:stable'
     steps:
@@ -12,7 +12,18 @@ jobs:
       - node/install:
           install-yarn: true
           node-version: '16.13'
-      - run: node --version
+      - run:
+          name: Install Node Modules
+          command: |
+            yarn install
+      - run:
+          name: Lint
+          command: |
+            yarn lint
+      - run:
+          name: Unit Tests
+          command: |
+            yarn test
 
 workflows:
   dev:
@@ -22,11 +33,7 @@ workflows:
           pkg-manager: yarn
   run-npm-command:
     jobs:
-      - install-node
-      - node/run:
-          yarn-run: lint
-      - node/run:
-          yarn-run: test
+      - build-api
 # yarn lint
 # yarn test
 # docker-compose build
