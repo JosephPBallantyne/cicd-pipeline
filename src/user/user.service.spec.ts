@@ -30,14 +30,14 @@ describe('UserService', () => {
       const USER_INPUT = {
         username: 'user',
         password: 'pass',
-        location: 'HK',
+        city: 'HK',
       };
       const USER_OUTPUT = [
         {
           id: 1,
           username: 'user',
           password: 'pass',
-          location: 'HK',
+          city: 'HK',
         },
       ];
       repositoryMock.save.mockReturnValue(USER_OUTPUT);
@@ -51,7 +51,7 @@ describe('UserService', () => {
       const USER_INPUT = {
         username: '',
         password: 'pass',
-        location: 'HK',
+        city: 'HK',
       };
       await expect(
         async () => await userService.createUser(USER_INPUT),
@@ -63,7 +63,7 @@ describe('UserService', () => {
       const USER_INPUT = {
         username: 'user',
         password: '',
-        location: 'HK',
+        city: 'HK',
       };
       await expect(
         async () => await userService.createUser(USER_INPUT),
@@ -83,7 +83,7 @@ describe('UserService', () => {
           id: 1,
           username: 'user',
           password: 'pass',
-          location: 'HK',
+          city: 'HK',
         },
       ];
       repositoryMock.find.mockReturnValue(USER_OUTPUT);

@@ -1,5 +1,10 @@
 export interface Login {
   username: string;
   password: string;
-  location?: string;
+  city?: string;
+}
+
+export interface UserPublic {
+  username: string;
+  city: string;
 }

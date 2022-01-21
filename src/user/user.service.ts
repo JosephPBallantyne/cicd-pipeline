@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../db/entity/User';
-import { Login } from './user.types';
+import { Login, UserPublic } from './user.types';
 
 @Injectable()
 export class UserService {
@@ -10,7 +10,27 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  async createUser({ username, password, location }: Login) {
+  async getUser({ username }: { username: string }): Promise<UserPublic> {
+    try {
+      if (!username) {
+        throw Error('missing parameters');
+      }
+      const user = await this.userRepository.find({
+        where: { username },
+      });
+      if (!user || user.length != 1) {
+        throw Error('user not found');
+      }
+      return {
+        username: user[0].username,
+        city: user[0].city,
+      };
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async createUser({ username, password, city }: Login) {
     try {
       if (!username || !password) {
         throw Error('missing parameters');
@@ -18,7 +38,7 @@ export class UserService {
       const res = await this.userRepository.save({
         username,
         password,
-        location: location ? location : 'HK',
+        city: city ? city : 'HK',
       });
       if (!res) {
         throw Error('db error');
